@@ -1,25 +1,19 @@
-/*
-O código abaixo realiza a impressão do vetor na ordem inversa.
-1 - comente o código
-2 - faça uma modificação para que seja possível inserir um vetor de n elementos.
-*/
-
 #include <stdio.h>
 
 int main() {
-    int vetor[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-    int i, temp;
+	int i , tam;
 
-    for (i = 0; i < 5; i++) {
-        temp = vetor[i];
-        vetor[i] = vetor[9 - i];
-        vetor[9 - i] = temp;
-    }
+	scanf("%d", &tam);
+	int vetor[tam];
 
-    printf("Vetor invertido:\n");
-    for (i = 0; i < 10; i++) {
-        printf("%d ", vetor[i]);
-    }
+	for (i = 0; i < tam; i++) {
+		scanf("%d", &vetor[i]);
+	}
 
-    return 0;
+	printf("Vetor invertido:\n");
+	for (i = tam; i > 0; i--) {
+		printf("%d ", vetor[i-1]);
+	}
+
+	return 0;
 }
