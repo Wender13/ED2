@@ -40,6 +40,42 @@ void imprimir() {
     printf("\n");
 }
 
+void encontrarMax()
+{
+  int max = lista[0];
+  for(int i = 0; i < tamanho; i++)
+  {
+    if(lista[i] > max) max = lista[i];
+  }
+  printf("Maior elemento da lista\n");
+  printf("%d\n", max);
+}
+
+void encontrarMin()
+{
+  int min = lista[0];
+  for(int i = 0; i < tamanho; i++)
+  {
+    if(lista[i] < min) min = lista[i];
+  }
+  printf("Maior elemento da lista\n");
+  printf("%d\n", min);
+}
+
+void inverter()
+{
+  int temp[tamanho], tam = 0;
+  for(int i = tamanho; i > 0; i--)
+  {
+    temp[tam] = lista[i];
+    tam++;
+  }
+  for(int i = 0; i < tamanho; i++)
+  {
+    lista[i] = temp[i];
+  }
+}
+
 int main() {
     inserir(10);
     inserir(20);
@@ -47,5 +83,12 @@ int main() {
     imprimir();
     remover(1);
     imprimir();
+    encontrarMax();
+    encontrarMin();
+    inverter();
+    imprimir();
+    
     return 0;
 }
+
+https://onecompiler.com/c/
