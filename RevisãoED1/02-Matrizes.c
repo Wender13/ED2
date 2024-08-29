@@ -4,14 +4,23 @@ O código abaixo recebe do usuário elementos que são inseridos em uma matriz 3
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 
 int main() {
-    int matriz[3][3];
-    int i, j, soma = 0;
+    int i, j, m, soma = 0;
+    
+    scanf("%d", &m);
+    
+    int **matriz = malloc(m * sizeof(int*));
+    
+    for (i = 0; i < m; i++) 
+    {
+        matriz[i] = malloc (m * sizeof (int));
+    }
 
     printf("Insira os elementos da matriz 3x3:\n");
-    for (i = 0; i < 3; i++) {
-        for (j = 0; j < 3; j++) {
+    for (i = 0; i < m; i++) {
+        for (j = 0; j < m; j++) {
             scanf("%d", &matriz[i][j]);
             if (i == j) {
                 soma += matriz[i][j];
