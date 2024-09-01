@@ -1,12 +1,3 @@
-/*
-O código abaixo apresenta a implementação de uma lista linear.
-
-Para esse exemplo, faça:
-- Implemente funções adicionais como buscar(int elemento) para encontrar a posição de um elemento na lista.
-ou 
-- Adicione métodos para inverter a lista, encontrar o máximo/mínimo, ou ordenar a lista.
-*/
-
 #include <stdio.h>
 #define MAX_SIZE 10
 
@@ -32,6 +23,64 @@ void remover(int index) {
     }
 }
 
+void buscar(int elemento) {
+    for (int i = 0; i < tamanho; i++) {
+        if (lista[i] == elemento) {
+            printf("Elemento %d encontrado na posição %d\n", elemento, i);
+            return;
+        }
+    }
+    printf("Elemento %d não encontrado\n", elemento);
+}
+
+void inverter() {
+    for (int i = 0; i < tamanho / 2; i++) {
+        int temp = lista[i];
+        lista[i] = lista[tamanho - i - 1];
+        lista[tamanho - i - 1] = temp;
+    }
+}
+
+int encontrar_maximo() {
+    if (tamanho == 0) {
+        printf("A lista está vazia!\n");
+        return -1; 
+    }
+    int maximo = lista[0];
+    for (int i = 1; i < tamanho; i++) {
+        if (lista[i] > maximo) {
+            maximo = lista[i];
+        }
+    }
+    return maximo;
+}
+
+int encontrar_minimo() {
+    if (tamanho == 0) {
+        printf("A lista está vazia!\n");
+        return -1;
+    }
+    int minimo = lista[0];
+    for (int i = 1; i < tamanho; i++) {
+        if (lista[i] < minimo) {
+            minimo = lista[i];
+        }
+    }
+    return minimo;
+}
+
+void ordenar() {
+    for (int i = 0; i < tamanho - 1; i++) {
+        for (int j = 0; j < tamanho - i - 1; j++) {
+            if (lista[j] > lista[j + 1]) {
+                int temp = lista[j];
+                lista[j] = lista[j + 1];
+                lista[j + 1] = temp;
+            }
+        }
+    }
+}
+
 void imprimir() {
     printf("Elementos da lista:\n");
     for (int i = 0; i < tamanho; i++) {
@@ -40,55 +89,31 @@ void imprimir() {
     printf("\n");
 }
 
-void encontrarMax()
-{
-  int max = lista[0];
-  for(int i = 0; i < tamanho; i++)
-  {
-    if(lista[i] > max) max = lista[i];
-  }
-  printf("Maior elemento da lista\n");
-  printf("%d\n", max);
-}
-
-void encontrarMin()
-{
-  int min = lista[0];
-  for(int i = 0; i < tamanho; i++)
-  {
-    if(lista[i] < min) min = lista[i];
-  }
-  printf("Maior elemento da lista\n");
-  printf("%d\n", min);
-}
-
-void inverter()
-{
-  int temp[tamanho], tam = 0;
-  for(int i = tamanho; i > 0; i--)
-  {
-    temp[tam] = lista[i];
-    tam++;
-  }
-  for(int i = 0; i < tamanho; i++)
-  {
-    lista[i] = temp[i];
-  }
-}
-
 int main() {
     inserir(10);
     inserir(20);
     inserir(30);
     imprimir();
+
     remover(1);
     imprimir();
-    encontrarMax();
-    encontrarMin();
-    inverter();
+
+    inserir(40);
+    inserir(50);
     imprimir();
-    
+
+    buscar(30);
+
+    inverter();
+    printf("Lista invertida: \n");
+    imprimir();
+
+    printf("Máximo: %d\n", encontrar_maximo());
+    printf("Mínimo: %d\n", encontrar_minimo());
+
+    ordenar();
+    printf("Lista ordenada: \n");
+    imprimir();
+
     return 0;
 }
-
-https://onecompiler.com/c/
