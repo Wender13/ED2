@@ -1,96 +1,117 @@
-/*
-O código abaixo apresenta a implementação de uma fila e suas operações básicas.
-
-1 - comente o código
-2 - implemente uma função para contar o número de elementos na fila.
-3 - implemente uma função para limpar todos os elementos da fila, liberando memória apropriadamente.
-*/
-
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct Node {
-    int data;
-    struct Node* next;
-} Node;
+typedef struct No {
+    int dado;
+    struct No* proximo;
+} No;
 
-typedef struct Queue {
-    Node* front;
-    Node* rear;
-} Queue;
+typedef struct Fila {
+    No* frente;
+    No* tras;
+} Fila;
 
-Queue* createQueue() {
-    Queue* q = (Queue*)malloc(sizeof(Queue));
+Fila* criarFila() {
+    Fila* q = (Fila*)malloc(sizeof(Fila));
     if (q == NULL) {
         printf("Falha na alocação de memória para a fila.\n");
         return NULL;
     }
-    q->front = q->rear = NULL;
+    q->frente = q->tras = NULL;
     return q;
 }
 
-void enqueue(Queue* q, int value) {
-    Node* newNode = (Node*)malloc(sizeof(Node));
-    if (newNode == NULL) {
+void enfileirar(Fila* q, int valor) {
+    No* novoNo = (No*)malloc(sizeof(No));
+    if (novoNo == NULL) {
         printf("Falha na alocação de memória para o novo nó.\n");
         return;
     }
-    newNode->data = value;
-    newNode->next = NULL;
-    if (q->rear == NULL) { 
-        q->front = q->rear = newNode;
+    novoNo->dado = valor;
+    novoNo->proximo = NULL;
+    if (q->tras == NULL) { 
+        q->frente = q->tras = novoNo;
     } else { 
-        q->rear->next = newNode;
-        q->rear = newNode;
+        q->tras->proximo = novoNo;
+        q->tras = novoNo;
     }
 }
 
-int dequeue(Queue* q) {
-    if (q->front == NULL) { 
+int desenfileirar(Fila* q) {
+    if (q->frente == NULL) { 
         printf("Fila está vazia.\n");
         return -1;
     }
-    Node* temp = q->front;
-    int data = temp->data;
-    q->front = q->front->next;
-    if (q->front == NULL) {
-        q->rear = NULL;
+    No* temp = q->frente;
+    int dado = temp->dado;
+    q->frente = q->frente->proximo;
+    if (q->frente == NULL) {
+        q->tras = NULL;
     }
     free(temp);
-    return data;
+    return dado;
 }
 
-int isEmpty(Queue* q) {
-    return q->front == NULL;
+int estaVazia(Fila* q) {
+    return q->frente == NULL;
 }
 
-void printQueue(Queue* q) {
-    if (isEmpty(q)) {
+void imprimirFila(Fila* q) {
+    if (estaVazia(q)) {
         printf("A fila está vazia.\n");
         return;
     }
-    Node* temp = q->front;
+    No* temp = q->frente;
     printf("Elementos da fila: ");
     while (temp != NULL) {
-        printf("%d ", temp->data);
-        temp = temp->next;
+        printf("%d ", temp->dado);
+        temp = temp->proximo;
     }
     printf("\n");
 }
 
+int contarElementos(Fila* q) {
+    int contagem = 0;
+    No* temp = q->frente;
+    while (temp != NULL) {
+        contagem++;
+        temp = temp->proximo;
+    }
+    return contagem;
+}
+
+void limparFila(Fila* q) {
+    No* temp = q->frente;
+    while (temp != NULL) {
+        No* proximo = temp->proximo;
+        free(temp);
+        temp = proximo;
+    }
+    q->frente = q->tras = NULL;
+    printf("A fila foi limpa.\n");
+}
+
 int main() {
-    Queue* q = createQueue();
-    enqueue(q, 10);
-    enqueue(q, 20);
-    enqueue(q, 30);
-    printQueue(q);
+    Fila* q = criarFila();
+    enfileirar(q, 10);
+    enfileirar(q, 20);
+    enfileirar(q, 30);
+    imprimirFila(q);
+    
+    printf("Número de elementos na fila: %d\n", contarElementos(q));
 
-    printf("Desenfileirado: %d\n", dequeue(q));
-    printQueue(q);
-    printf("Desenfileirado: %d\n", dequeue(q));
-    printQueue(q);
-    printf("Desenfileirado: %d\n", dequeue(q));
-    printQueue(q);
+    printf("Desenfileirado: %d\n", desenfileirar(q));
+    imprimirFila(q);
+    printf("Desenfileirado: %d\n", desenfileirar(q));
+    imprimirFila(q);
+    printf("Desenfileirado: %d\n", desenfileirar(q));
+    imprimirFila(q);
 
+    printf("Número de elementos na fila: %d\n", contarElementos(q));
+
+    limparFila(q);
+    imprimirFila(q);
+
+    free(q);
     return 0;
 }

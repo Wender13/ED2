@@ -1,26 +1,20 @@
-/*
-O código abaixo apresenta a implementação de uma pilha e suas operações básicas.
-
-1 - comente o código
-2 - implemente uma função para verificar se a pilha está vazia.
-3 - proponha uma função que possa fazer expansão dinâmica quando a capacidade máxima é atingida, em vez de simplesmente negar novas inserções na pilha.
-*/
-
 #include <stdio.h>
-#define MAX_SIZE 3
+#include <stdlib.h>
 
-int pilha[MAX_SIZE];
+int* pilha;
+int tamanhoMaximo = 3;
 int topo = -1;
 
-void push(int elemento) {
-    if (topo < MAX_SIZE - 1) {
+void empilhar(int elemento) {
+    if (topo < tamanhoMaximo - 1) {
         pilha[++topo] = elemento;
     } else {
-        printf("Pilha cheia!\n");
+        expandirPilha();
+        pilha[++topo] = elemento;
     }
 }
 
-int pop() {
+int desempilhar() {
     if (topo == -1) {
         printf("Pilha vazia!\n");
         return -1;
@@ -29,7 +23,7 @@ int pop() {
     }
 }
 
-int top() {
+int elementoTopo() {
     if (topo == -1) {
         printf("Pilha vazia!\n");
         return -1;
@@ -38,7 +32,7 @@ int top() {
     }
 }
 
-void imprimir() {
+void imprimirPilha() {
     printf("Conteúdo da pilha:\n");
     for (int i = topo; i >= 0; i--) {
         printf("%d ", pilha[i]);
@@ -46,13 +40,46 @@ void imprimir() {
     printf("\n");
 }
 
+int estaVazia() {
+    return topo == -1;
+}
+
+void expandirPilha() {
+    int novoTamanho = tamanhoMaximo * 2;
+    int* novaPilha = (int*)malloc(novoTamanho * sizeof(int));
+
+    if (novaPilha == NULL) {
+        printf("Erro ao alocar memória para expansão da pilha.\n");
+        return;
+    }
+
+    for (int i = 0; i <= topo; i++) {
+        novaPilha[i] = pilha[i];
+    }
+
+    free(pilha);
+    pilha = novaPilha;
+    tamanhoMaximo = novoTamanho;
+
+    printf("Pilha expandida para o novo tamanho de %d.\n", tamanhoMaximo);
+}
+
 int main() {
-    push(10);
-    push(20);
-    push(30);
-    imprimir();
-    printf("Elemento no topo: %d\n", top());
-    printf("Elemento removido: %d\n", pop());
-    imprimir();
+    pilha = (int*)malloc(tamanhoMaximo * sizeof(int));
+
+    empilhar(10);
+    empilhar(20);
+    empilhar(30);
+    imprimirPilha();
+    printf("Elemento no topo: %d\n", elementoTopo());
+    printf("Elemento removido: %d\n", desempilhar());
+    imprimirPilha();
+
+    empilhar(40);
+    empilhar(50);
+    empilhar(60);
+    imprimirPilha();
+
+    free(pilha);
     return 0;
 }
